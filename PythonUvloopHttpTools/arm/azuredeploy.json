@@ -1,0 +1,115 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+      "applicationName": {
+        "type": "string",
+        "defaultValue": "uvloophttptools",
+        "metadata": {
+          "description": "Application name"
+        }
+      },
+      "dockerImageName": {
+        "type": "string",
+        "defaultValue": "robertoprevato/azcpyuvloophttptools:0.1",
+        "metadata": {
+          "description": "Name of docker image to use"
+        }
+      },
+      "webSiteName": {
+        "type": "string",
+        "defaultValue": "webapp"
+      },
+      "environmentType": {
+        "type": "string",
+        "allowedValues": [
+          "dev",
+          "test"
+        ],
+        "defaultValue": "dev",
+        "metadata": {
+          "description": "Environment type name"
+        }
+      },
+      "webAppDomain": {
+        "type": "string",
+        "defaultValue": ".azurewebsites.net"
+      }
+    },
+    "variables": {
+      "location": "[resourceGroup().location]",
+      "name": "[concat(parameters('applicationName'),'-',parameters('environmentType'))]",
+      "nameWithLocation": "[concat(variables('name'),'-',variables('location'))]",
+      "webSiteName": "[concat(variables('nameWithLocation'),'-',parameters('webSiteName'))]",
+      "hostingPlanName": "[concat(variables('nameWithLocation'),'-plan')]",
+      "dnsName": "[concat(variables('nameWithLocation'), parameters('webAppDomain'))]",
+      "dnsScmName": "[concat(variables('nameWithLocation'), '.scm', parameters('webAppDomain'))]",
+      "publishingUsername": "[concat('$', variables('nameWithLocation'))]"
+    },
+    "resources": [
+      {
+        "type": "Microsoft.Web/serverfarms",
+        "name": "[variables('hostingPlanName')]",
+        "apiVersion": "2016-09-01",
+        "location": "[resourceGroup().location]",
+        "sku": {
+          "name": "S1",
+          "tier": "Standard",
+          "size": "S1",
+          "family": "S",
+          "capacity": 1
+        },
+        "kind": "linux",
+        "properties": {
+          "name": "[variables('hostingPlanName')]",
+          "workerTierName": null,
+          "adminSiteName": null,
+          "hostingEnvironmentProfile": null,
+          "perSiteScaling": false,
+          "reserved": true,
+          "targetWorkerCount": 0,
+          "targetWorkerSizeId": 0
+        }
+      },
+      {
+        "type": "Microsoft.Web/sites",
+        "kind": "app,linux",
+        "name": "[variables('webSiteName')]",
+        "apiVersion": "2016-08-01",
+        "location": "[resourceGroup().location]",
+        "properties": {
+          "name": "[variables('webSiteName')]",
+          "enabled": true,
+          "hostNameSslStates": [
+            {
+              "name": "[variables('dnsName')]"
+            },
+            {
+              "name": "[variables('dnsScmName')]"
+            }
+          ],
+          "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('hostingPlanName'))]"
+        },
+        "dependsOn": [
+          "[resourceId('Microsoft.Web/serverfarms', variables('hostingPlanName'))]"
+        ],
+        "resources": [
+          {
+            "name": "appsettings",
+            "type": "config",
+            "apiVersion": "2016-08-01",
+            "dependsOn": [
+              "[resourceId('Microsoft.Web/sites', variables('webSiteName'))]"
+            ],
+            "tags": {
+              "displayName": "Application settings"
+            },
+            "properties": {
+              "publishingUsername": "[variables('publishingUsername')]",
+              "DOCKER_CUSTOM_IMAGE_NAME": "[parameters('dockerImageName')]"
+            }
+          }
+        ]
+      }
+    ]
+  }
