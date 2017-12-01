@@ -2,7 +2,7 @@
 
 Create variables, to avoid repetition. Use an unique name for APPNAME.
 ```bash
-export APPNAME=aspcorehelloworld
+export APPNAME=linuxaspcorehelloworld
 export RGNAME=${APPNAME}-dev-euw-rg
 ```
 

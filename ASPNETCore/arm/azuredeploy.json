@@ -11,7 +11,7 @@
       },
       "dockerImageName": {
         "type": "string",
-        "defaultValue": "robertoprevato/aspcorehelloworld:0.1",
+        "defaultValue": "robertoprevato/aspcorehelloworld:0.1", // TODO: use image from Azure Container Registry (linuxFxVersion)
         "metadata": {
           "description": "Name of docker image to use"
         }

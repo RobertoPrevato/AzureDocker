@@ -1,11 +1,12 @@
-import os
-import sys
 import asyncio
 import httptools
 import uvloop
 from datetime import datetime
 
 from socket import *
+
+
+_RESP_CACHE = {}
 
 
 class HttpRequest:
@@ -92,14 +93,33 @@ class HttpProtocol(asyncio.Protocol):
 
     def handle(self, request, response):
         parsed_url = httptools.parse_url(self._current_url)
-        
-        a = datetime.now()
-        #
-        # TODO: implement here your logic to handle responses by router, etc.
-        # 
-        resp = "Hello World, from Python 3.6.2, uvloop and httptools! {}".format(a.strftime("%Y-%m-%d %H:%M:%S.%f"))
 
-        response.write(resp.encode("utf8"))
+        query = parsed_url.query
+
+        if not query:
+            a = datetime.now()
+            message = "Hello World, from Python 3.6.2, uvloop and httptools! {}".format(
+                a.strftime("%Y-%m-%d %H:%M:%S.%f"))
+
+            response.write(message.encode("utf8"))
+        else:
+            try:
+                page = int(query.decode('ascii').replace('s=', ''))
+            except ValueError:
+                message = b'Invalid query: cannot parse size'
+                response.write(message)
+            else:
+                if page > 101:
+                    message = b'Invalid query: exceeds 101'
+                    response.write(message)
+                else:
+                    message = _RESP_CACHE.get(page)
+                    if message is None:
+                        message = b'X' * (page * 1000)
+                        _RESP_CACHE[page] = message
+
+                    response.write(message)
+
         if not self._current_parser.should_keep_alive():
             self._transport.close()
         self._current_parser = None
