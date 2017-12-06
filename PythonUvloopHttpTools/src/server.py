@@ -1,3 +1,4 @@
+import os
 import asyncio
 import httptools
 import uvloop
@@ -136,7 +137,7 @@ def httptools_server(loop, addr):
 
 
 if __name__ == "__main__":
-    SERVER_PORT = os.environ.get("SERVER_PORT", "44555")
+    SERVER_PORT = os.environ.get("SERVER_PORT", "80")
 
     loop = uvloop.new_event_loop()
     asyncio.set_event_loop(loop)

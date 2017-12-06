@@ -9,7 +9,7 @@ WORKDIR /app
 ADD . /app
 
 # Default environmental variables
-ENV SERVER_PORT 80
+ENV SERVER_PORT :80
 ENV GOMAXPROCS 1
 ENV GOPATH /app/src/
 ENV ENABLE_SSH false
@@ -25,6 +25,7 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/* \
     && apt-get clean \
     && go get "github.com/golang/groupcache/lru" \
+    && go get "github.com/valyala/fasthttp" \
     && go build /app/src/main.go
 
 # Copy the sshd_config file to its new location

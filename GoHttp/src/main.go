@@ -46,7 +46,7 @@ func main() {
 	http.HandleFunc("/", handler)
 	var port = os.Getenv("SERVER_PORT")
 	if port == "" {
-		port = "25000"
+		port = "80"
 	}
 	fmt.Println("Serving on :" + port)
 	http.ListenAndServe(":"+port, nil)

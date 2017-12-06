@@ -4,14 +4,12 @@
     "parameters": {
       "applicationName": {
         "type": "string",
-        "defaultValue": "uvloophttptools",
         "metadata": {
           "description": "Application name"
         }
       },
       "dockerImageName": {
         "type": "string",
-        "defaultValue": "robertoprevato/azcpyuvloophttptools:0.1",
         "metadata": {
           "description": "Name of docker image to use"
         }
