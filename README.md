@@ -10,6 +10,7 @@ Docker images for web applications to host in Azure.
 | GoFastHttp | Go 1.9.1 web application, using fast http |
 | PyPyGunicornGeventFlask | PyPy 3, Gunicorn, Gevent, Flask web application |
 | PythonUvloopHttpTools | Python 3.6.2 application using uvloop and httptools |
+| PythonGunicornAiohttpUvloop | Python 3.6.2 application using uvloop, aiohttp and Gunicorn |
 
 ---
 

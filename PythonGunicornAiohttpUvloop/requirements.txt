@@ -1,0 +1,13 @@
+aiodns==1.1.1
+aiohttp==3.3.0
+async-timeout==3.0.0
+attrs==18.1.0
+cchardet==2.1.1
+chardet==3.0.4
+gunicorn==19.8.1
+idna==2.6
+idna-ssl==1.0.1
+multidict==4.3.1
+pycares==2.3.0
+uvloop==0.10.1
+yarl==1.2.4
