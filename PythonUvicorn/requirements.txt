@@ -1,0 +1,8 @@
+aiodns==1.1.1
+cchardet==2.1.1
+gunicorn==19.8.1
+httptools==0.0.11
+pycares==2.3.0
+uvicorn==0.1.1
+uvloop==0.10.1
+websockets==5.0.1
