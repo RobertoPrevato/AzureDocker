@@ -5,8 +5,10 @@ from datetime import datetime
 from aiohttp import web
 
 
-# use uvloop
-asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
+# NB: when running using Gunicorn and aiohttp.worker.GunicornUVLoopWebWorker,
+# there is no need to set the uvloop event loop policy
+# https://github.com/MagicStack/uvloop/wiki
+# asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
 
 
 _RESP_CACHE = {}

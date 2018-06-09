@@ -1,4 +1,4 @@
-FROM pypy:3-6
+FROM python:3.6.2
 
 LABEL author=roberto.prevato@gmail.com
 

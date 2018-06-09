@@ -10,7 +10,7 @@ ADD . /app
 
 ENV SERVER_PORT 80
 ENV ENABLE_SSH false
-ENV GUWORKERS 3
+ENV GUWORKERS 1
 
 # Run python's package manager and install the flask package
 RUN pip install -r requirements.txt
